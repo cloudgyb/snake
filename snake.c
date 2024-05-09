@@ -4,6 +4,7 @@
 
 #include <malloc.h>
 #include <time.h>
+#include <unistd.h>
 #include "snake.h"
 #include "ui.h"
 
@@ -20,6 +21,7 @@ void snake_init(snake *snake) {
     snake->length = 0;
     snake->init_length = SNAKE_INIT_DEFAULT_LENGTH;
     snake->speed = 1;
+    snake->direct = RIGHT;
     snake->head = (Snake_body_node *) malloc(sizeof(Snake_body_node));
     snake->head->pre = snake->head->next = NULL;
     srand(time(0));
@@ -50,6 +52,34 @@ void snake_show(snake *snake) {
         print_char('*', head->x, head->y);
         head = head->next;
     }
+}
+
+void snake_run(snake *snake) {
+    Snake_body_node *head = snake->head;
+    Snake_body_node *newNode = (Snake_body_node *) malloc(sizeof(Snake_body_node));
+    DIRECT direct = snake->direct;
+    int x = head->x;
+    int y = head->y;
+    if (direct == LEFT) {
+        x = head->x - 1;
+    } else if (direct == RIGHT) {
+        x = head->x + 1;
+    } else if (direct == UP) {
+        y = head->y - 1;
+    } else {
+        y = head->y + 1;
+    }
+    newNode->x = x;
+    newNode->y = y;
+    snake->head = newNode;
+    newNode->next = head;
+    head->pre = newNode;
+    print_char('*', x, y); //显示新节点
+    Snake_body_node *tail = snake->tail;
+    snake->tail = tail->pre;
+    print_char(' ', tail->x, tail->y);
+    free(tail);
+    sleep(1);
 }
 
 void snake_destroy(snake *snake) {

@@ -5,7 +5,9 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 #define SNAKE_INIT_DEFAULT_LENGTH 4
-
+typedef enum {
+    LEFT, RIGHT, UP, DOWN
+} DIRECT;
 typedef struct snake_body_node {
     int x;
     int y;
@@ -17,6 +19,7 @@ typedef struct {
     int init_length;
     int length;
     int speed;
+    DIRECT direct;
     Snake_body_node *head;
     Snake_body_node *tail;
 } snake;
@@ -27,7 +30,7 @@ void snake_init(snake *snake);
 
 void snake_show(snake *snake);
 
-void snake_group(snake *snake);
+void snake_run(snake *snake);
 
 void snake_destroy(snake *snake);
 

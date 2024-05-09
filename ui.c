@@ -11,6 +11,14 @@
 
 # include "ui.h"
 
+void hidden_cursor() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cci;
+    GetConsoleCursorInfo(hOut, &cci);
+    cci.bVisible = 0;//赋1为显示，赋0为隐藏
+    SetConsoleCursorInfo(hOut, &cci);
+}
+
 void print_char(char c, int x, int y) {
 #if defined(WIN32) || defined(WIN64)
     HANDLE hOut;
