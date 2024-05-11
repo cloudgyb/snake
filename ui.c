@@ -4,19 +4,24 @@
 #include <stdio.h>
 
 #ifdef __WINNT
-
 #include <windows.h>
-
+#else
+#include <unistd.h>
 #endif
 
 # include "ui.h"
 
 void hidden_cursor() {
+#ifdef __WINNT
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cci;
     GetConsoleCursorInfo(hOut, &cci);
     cci.bVisible = 0;//赋1为显示，赋0为隐藏
     SetConsoleCursorInfo(hOut, &cci);
+#else
+    printf("\033[?25l");
+    fflush(stdout);
+#endif
 }
 
 void print_char(char c, int x, int y) {
@@ -27,7 +32,8 @@ void print_char(char c, int x, int y) {
     SetConsoleCursorPosition(hOut, pos);
 
     SetConsoleTextAttribute(hOut, 0x01 | 0x05);
-
-    printf("%c", c);
+#else
+    printf("\033[10;20H");
 #endif
+    printf("%c", c);
 }
