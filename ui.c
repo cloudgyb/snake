@@ -4,7 +4,9 @@
 #include <stdio.h>
 
 #ifdef __WINNT
+
 #include <windows.h>
+
 #else
 #include <unistd.h>
 #endif
@@ -25,6 +27,16 @@ void hidden_cursor() {
 }
 
 void print_char(char c, int x, int y) {
+    move_cursor_to(x, y);
+    printf("%c", c);
+}
+
+void print_str(char *str, int x, int y) {
+    move_cursor_to(x, y);
+    printf("%s", str);
+}
+
+void move_cursor_to(int x, int y) {
 #if defined(WIN32) || defined(WIN64)
     HANDLE hOut;
     COORD pos = {(short) x, (short) y}; // 第一个参数是横坐标，第二个参数是纵坐标
@@ -35,5 +47,4 @@ void print_char(char c, int x, int y) {
 #else
     printf("\033[10;20H");
 #endif
-    printf("%c", c);
 }

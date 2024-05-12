@@ -13,6 +13,8 @@ extern int map_y_length;
 extern int map_offset_x;
 extern int map_offset_y;
 
+int food_eat_check(snake *snake);
+
 snake *snake_create() {
     return (snake *) malloc(sizeof(snake));
 }
@@ -22,15 +24,17 @@ void snake_init(snake *snake) {
     snake->init_length = SNAKE_INIT_DEFAULT_LENGTH;
     snake->speed = 1;
     snake->direct = RIGHT;
+    snake->food = food_create();
+    food_generate(snake->food);
     snake->head = (Snake_body_node *) malloc(sizeof(Snake_body_node));
     snake->head->pre = snake->head->next = NULL;
     srand(time(0));
     int x0 = map_offset_x + snake->init_length + 1;
     int x1 = map_offset_x + map_x_length - 1;
-    snake->head->x = rand() % (x1 - x0 + 1) + x0;
+    snake->head->x = rand() % (x1 - x0) + x0;
     int y0 = map_offset_y + 1;
     int y1 = map_offset_y + map_y_length - 1;
-    snake->head->y = rand() % (y1 - y0 + 1) + y0;
+    snake->head->y = rand() % (y1 - y0) + y0;
     Snake_body_node *pre = snake->head;
     int i = SNAKE_INIT_DEFAULT_LENGTH - 1;
     Snake_body_node *newNode = snake->head;
@@ -47,6 +51,7 @@ void snake_init(snake *snake) {
 }
 
 void snake_show(snake *snake) {
+    food_show(snake->food); //显示食物
     Snake_body_node *head = snake->head;
     while (head != NULL) {
         print_char('*', head->x, head->y);
@@ -75,14 +80,22 @@ void snake_run(snake *snake) {
     newNode->next = head;
     head->pre = newNode;
     print_char('*', x, y); //显示新节点
-    Snake_body_node *tail = snake->tail;
-    snake->tail = tail->pre;
-    print_char(' ', tail->x, tail->y);
-    free(tail);
+
+    int is_eat = food_eat_check(snake);
+    if (is_eat == 0) { //没吃到食物
+        Snake_body_node *tail = snake->tail;
+        snake->tail = tail->pre;
+        print_char(' ', tail->x, tail->y);
+        free(tail);
+    } else { // 吃到了食物，不清除最后一个节点，将最后一个节点作为增长节点
+        food_generate(snake->food);
+    }
+    food_show(snake->food);
     sleep(1);
 }
 
 void snake_destroy(snake *snake) {
+    food_destroy(snake->food);
     Snake_body_node *head = snake->head;
     Snake_body_node *des;
     while (head != NULL) {
@@ -91,4 +104,13 @@ void snake_destroy(snake *snake) {
         free(des);
     }
     free(snake);
+}
+
+int food_eat_check(snake *snake) {
+    Food *food = snake->food;
+    Snake_body_node *head = snake->head;
+    if (food->x == head->x && food->y == head->y) {
+        return 1;
+    }
+    return 0;
 }

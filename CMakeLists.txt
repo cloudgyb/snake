@@ -9,4 +9,5 @@ add_executable(snake main.c
         ui.h
         ui.c
         snake.c
-        snake.h)
+        snake.h
+        food.c)

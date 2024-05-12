@@ -1,9 +1,7 @@
 #ifndef SNAKE_FOOD_H
 #define SNAKE_FOOD_H
 
-#include "snake.h"
-
-typdef struct food {
+typedef struct food {
     int x;
     int y;
 } Food;
@@ -11,6 +9,10 @@ typdef struct food {
 
 Food *food_create();
 
-void food_generate(Food *food,snake *snake);
+void food_generate(Food *food);
+
+void food_show(Food *food);
+
+void food_destroy(Food *food);
 
 #endif
