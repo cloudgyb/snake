@@ -22,7 +22,7 @@ snake *snake_create() {
 void snake_init(snake *snake) {
     snake->length = 0;
     snake->init_length = SNAKE_INIT_DEFAULT_LENGTH;
-    snake->speed = 1;
+    snake->speed = 10000;
     snake->direct = RIGHT;
     snake->food = food_create();
     food_generate(snake->food);
@@ -89,10 +89,27 @@ void snake_run(snake *snake) {
         free(tail);
     } else { // 吃到了食物，不清除最后一个节点，将最后一个节点作为增长节点
         food_generate(snake->food);
+        if (snake->speed < 1000000 - 100000) { // 速度有上限
+            snake->speed += 20000;
+        }
     }
     food_show(snake->food);
-    sleep(1);
+    usleep(1000000 - snake->speed);
 }
+
+int snake_crash_check(snake *snake) {
+    int min_x = map_offset_x;
+    int max_x = map_offset_x + map_x_length - 1;
+    int min_y = 0;
+    int max_y = map_offset_y + map_y_length - 1;
+    int x = snake->head->x;
+    int y = snake->head->y;
+    if (x <= min_x || x >= max_x || y <= min_y || y >= max_y) {
+        return 1;
+    }
+    return 0;
+}
+
 
 void snake_destroy(snake *snake) {
     food_destroy(snake->food);

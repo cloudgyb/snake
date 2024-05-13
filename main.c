@@ -40,6 +40,10 @@ int main(void) {
             snake->direct = next_direct;
         }
         snake_run(snake);
+        int res = snake_crash_check(snake);
+        if(res == 1) { // 发生碰撞了
+            break;
+        }
     }
     print_str("Game over!\n Press any key to exit!",
               (map_offset_x + map_x_length) / 2 - 5,

@@ -36,6 +36,8 @@ void snake_show(snake *snake);
 
 void snake_run(snake *snake);
 
+int snake_crash_check(snake *snake);
+
 void snake_destroy(snake *snake);
 
 #endif //SNAKE_H
