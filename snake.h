@@ -22,6 +22,7 @@ typedef struct {
     int init_length;
     int length;
     int speed;
+    int score;
     DIRECT direct;
     Food *food;
     Snake_body_node *head;

@@ -36,6 +36,15 @@ void print_str(char *str, int x, int y) {
     printf("%s", str);
 }
 
+void printf_str(char *format, int x, int y, ...) {
+    move_cursor_to(x, y);
+    va_list argv;
+    va_start(argv, y);
+    vprintf(format, argv);
+    va_end(argv);
+}
+
+
 void move_cursor_to(int x, int y) {
 #if defined(WIN32) || defined(WIN64)
     HANDLE hOut;

@@ -20,6 +20,12 @@ void init_map() {
     }
 }
 
+void show_score(int score) {
+    int x = map_offset_x + map_x_length + 1;
+    int y = (map_offset_y + map_y_length) / 2;
+    printf_str("score: %d", x, y, score);
+}
+
 void destroy_map() {
     // do nothing
 }

@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "snake.h"
 #include "ui.h"
+#include "map.h"
 
 extern int map_x_length;
 extern int map_y_length;
@@ -23,6 +24,7 @@ void snake_init(snake *snake) {
     snake->length = 0;
     snake->init_length = SNAKE_INIT_DEFAULT_LENGTH;
     snake->speed = 10000;
+    snake->score = 0;
     snake->direct = RIGHT;
     snake->food = food_create();
     food_generate(snake->food);
@@ -57,6 +59,7 @@ void snake_show(snake *snake) {
         print_char('*', head->x, head->y);
         head = head->next;
     }
+    show_score(0);
 }
 
 void snake_run(snake *snake) {
@@ -92,6 +95,8 @@ void snake_run(snake *snake) {
         if (snake->speed < 1000000 - 100000) { // 速度有上限
             snake->speed += 20000;
         }
+        snake->score += 10;
+        show_score(snake->score);
     }
     food_show(snake->food);
     usleep(1000000 - snake->speed);

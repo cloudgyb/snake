@@ -13,4 +13,6 @@ void print_char(char c, int x, int y);
 
 void print_str(char *str, int x, int y);
 
+void printf_str(char *format, int x, int y, ...);
+
 #endif //SNAKE_UI_H
