@@ -3,11 +3,11 @@ project(snake C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(snake main.c
-        map.h
-        map.c
-        ui.h
-        ui.c
-        snake.c
-        snake.h
-        food.c)
+add_executable(snake src/main.c
+        src/map.h
+        src/map.c
+        src/ui.h
+        src/ui.c
+        src/snake.c
+        src/snake.h
+        src/food.c)

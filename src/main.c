@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <conio.h>
 #include "map.h"
 #include "snake.h"
