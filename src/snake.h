@@ -31,13 +31,13 @@ typedef struct {
 
 snake *snake_create();
 
-void snake_init(snake *snake);
+void snake_init(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y);
 
 void snake_show(snake *snake);
 
-void snake_run(snake *snake);
+void snake_run(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y);
 
-int snake_crash_check(snake *snake);
+int snake_crash_check(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y);
 
 void snake_destroy(snake *snake);
 

@@ -6,6 +6,8 @@
 #ifdef __WINNT
 
 #include <windows.h>
+#include <stdbool.h>
+#include <locale.h>
 
 #else
 #include <unistd.h>
@@ -56,4 +58,17 @@ void move_cursor_to(int x, int y) {
 #else
     printf("\033[10;20H");
 #endif
+}
+
+void window_resize(short w, short h) {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD size = {w, h};
+    SetConsoleScreenBufferSize(hOut, size);
+    SMALL_RECT rc = {1, 1, w, h};
+    SetConsoleWindowInfo(hOut, true, &rc);
+    system("cls");
+}
+
+void window_title(const char *title) {
+    SetConsoleTitle(title);
 }

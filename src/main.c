@@ -1,23 +1,22 @@
 #include <conio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "map.h"
 #include "snake.h"
 #include "ui.h"
 
-extern int map_x_length; // 地图的长度
-extern int map_y_length; // 地图的宽度
-
-extern int map_offset_x; // 地图开始像素的水平偏移量
-extern int map_offset_y; // 地图开始像素的纵向偏移量
 
 int main(void) {
     hidden_cursor();
-    map_offset_y = map_offset_x = 0;
-    map_x_length = 30;
-    map_y_length = 20;
-    init_map();
+    system("chcp 65001");
+    system("cls");
+    window_title("贪吃蛇游戏");
+    Map *map = init_map(30, 20, '$');
+    show_map(map);
     snake *snake = snake_create();
-    snake_init(snake);
+    snake_init(snake, MAP_PARAM(map));
     snake_show(snake);
+    show_score(map, 0);
     char key;
     DIRECT curr_direct;
     DIRECT next_direct;
@@ -38,17 +37,17 @@ int main(void) {
             }
             snake->direct = next_direct;
         }
-        snake_run(snake);
-        int res = snake_crash_check(snake);
-        if(res == 1) { // 发生碰撞了
+        snake_run(snake, MAP_PARAM(map));
+        show_score(map, snake->score);
+        int res = snake_crash_check(snake, MAP_PARAM(map));
+        if (res == 1) { // 发生碰撞了
             break;
         }
+        usleep(1000000 - snake->speed);
     }
-    print_str("Game over!\n Press any key to exit!",
-              (map_offset_x + map_x_length) / 2 - 5,
-              (map_offset_y + map_y_length) / 2);
+    show_game_over(map, snake->score);
     snake_destroy(snake);
-    getch();
-    destroy_map();
+    system("pause");
+    destroy_map(map);
     return 0;
 }

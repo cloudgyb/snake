@@ -9,7 +9,7 @@ typedef struct food {
 
 Food *food_create();
 
-void food_generate(Food *food);
+void food_generate(Food *food, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y);
 
 void food_show(Food *food);
 

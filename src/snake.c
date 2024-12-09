@@ -4,15 +4,8 @@
 
 #include <malloc.h>
 #include <time.h>
-#include <unistd.h>
 #include "snake.h"
 #include "ui.h"
-#include "map.h"
-
-extern int map_x_length;
-extern int map_y_length;
-extern int map_offset_x;
-extern int map_offset_y;
 
 int food_eat_check(snake *snake);
 
@@ -20,14 +13,14 @@ snake *snake_create() {
     return (snake *) malloc(sizeof(snake));
 }
 
-void snake_init(snake *snake) {
+void snake_init(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y) {
     snake->length = 0;
     snake->init_length = SNAKE_INIT_DEFAULT_LENGTH;
-    snake->speed = 10000;
+    snake->speed = 100000;
     snake->score = 0;
     snake->direct = RIGHT;
     snake->food = food_create();
-    food_generate(snake->food);
+    food_generate(snake->food, map_x_length, map_y_length, map_offset_x, map_offset_y);
     snake->head = (Snake_body_node *) malloc(sizeof(Snake_body_node));
     snake->head->pre = snake->head->next = NULL;
     srand(time(0));
@@ -59,10 +52,9 @@ void snake_show(snake *snake) {
         print_char('*', head->x, head->y);
         head = head->next;
     }
-    show_score(0);
 }
 
-void snake_run(snake *snake) {
+void snake_run(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y) {
     Snake_body_node *head = snake->head;
     Snake_body_node *newNode = (Snake_body_node *) malloc(sizeof(Snake_body_node));
     DIRECT direct = snake->direct;
@@ -91,18 +83,16 @@ void snake_run(snake *snake) {
         print_char(' ', tail->x, tail->y);
         free(tail);
     } else { // 吃到了食物，不清除最后一个节点，将最后一个节点作为增长节点
-        food_generate(snake->food);
+        food_generate(snake->food, map_x_length, map_y_length, map_offset_x, map_offset_y);
         if (snake->speed < 1000000 - 100000) { // 速度有上限
             snake->speed += 20000;
         }
         snake->score += 10;
-        show_score(snake->score);
     }
     food_show(snake->food);
-    usleep(1000000 - snake->speed);
 }
 
-int snake_crash_check(snake *snake) {
+int snake_crash_check(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y) {
     int min_x = map_offset_x;
     int max_x = map_offset_x + map_x_length - 1;
     int min_y = 0;
