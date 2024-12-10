@@ -46,10 +46,14 @@ void show_game_over(Map *map, int score) {
     int map_x_length = map->width;
     int map_offset_x = map->offset_x;
     int map_offset_y = map->offset_y;
-    printf_str("score:%d\nGame over!\n Press any key to exit!",
-               (map_offset_x + map_x_length) / 2 - 5,
-               (map_offset_y + map_y_length) / 2,
+    printf_str("score:%d",
+               (map_offset_x + map_x_length) / 2 - 4,
+               (map_offset_y + map_y_length) / 2 - 3,
                score);
+    print_str("Game over!", (map_offset_x + map_x_length) / 2 - 5,
+              (map_offset_y + map_y_length) / 2 + 2 - 3);
+    print_str("按任意键继续!", (map_offset_x + map_x_length) / 2 - 6,
+              (map_offset_y + map_y_length) / 2 + 3 - 3);
 }
 
 void destroy_map(Map *map) {

@@ -28,20 +28,23 @@ int main(void) {
             snake_init(snake, MAP_PARAM(map));
             snake_show(snake);
             show_score(map, 0);
-            char key;
+            int key;
             DIRECT curr_direct;
             DIRECT next_direct;
             while (1) {
                 if (kbhit()) { // 方向控制及退出游戏
                     key = getch();
+                    if (key == 0 || key == 224) { // 处理功能键和方向键（上下左右）getch() 会有两次返回
+                        key = getch();
+                    }
                     curr_direct = snake->direct;
-                    if (key == 'w' && curr_direct != DOWN) {
+                    if ((key == 'w' || key == 72) && curr_direct != DOWN) {
                         next_direct = UP;
-                    } else if (key == 's' && curr_direct != UP) {
+                    } else if ((key == 's' || key == 80) && curr_direct != UP) {
                         next_direct = DOWN;
-                    } else if (key == 'a' && curr_direct != RIGHT) {
+                    } else if ((key == 'a' || key == 75) && curr_direct != RIGHT) {
                         next_direct = LEFT;
-                    } else if (key == 'd' && curr_direct != LEFT) {
+                    } else if ((key == 'd' || key == 77) && curr_direct != LEFT) {
                         next_direct = RIGHT;
                     } else if (key == 'q') {
                         break;
@@ -57,8 +60,8 @@ int main(void) {
                 usleep(1000000 - snake->speed);
             }
             show_game_over(map, snake->score);
+            getch();
             snake_destroy(snake);
-            system("pause");
             destroy_map(map);
         } else if (menu_index == 4) {
             break;
