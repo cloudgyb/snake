@@ -39,48 +39,26 @@ int menu_select(Menu *menu) {
     while (1) {
         if (kbhit()) {
             key = getch();
-            if (key == 'w') {
+            if (key == 0 || key == 224) { // 处理方向键（上下左右）getch() 会有两次返回
+                key = getch();
+            }
+            if (key == 'w' || key == 72) {// 按了 w 或者 ↑ 键，菜单选项上移
                 print_str("  ", 1, 2 + menu->select_index);
                 if (menu->select_index > 0) {
                     menu->select_index--;
                 }
                 print_str("> ", 1, 2 + menu->select_index);
-            } else if(key == 's') {
+            } else if (key == 's' || key == 80) { // 按了 s 或者 ↓ 键，菜单选项下移
                 print_str("  ", 1, 2 + menu->select_index);
                 if (menu->select_index < menu->item_count - 1) {
                     menu->select_index++;
                 }
                 print_str("> ", 1, 2 + menu->select_index);
-            } else if(key == 'c') {
+            } else if (key == 'c' || key == 13) { // 按 c 或者 Enter 选中菜单退出
                 return menu->select_index;
             }
-            /*print_str("  ", 1, 2 + menu->select_index);
-            if (key == 0 || key == 224) { // Handle special keys
-                key = getch(); // Get the next character
-                switch (key) {
-                    case 72: // up
-                        if (menu->select_index > 0) {
-                            menu->select_index--;
-                        }
-                        break;
-                    case 80: // down
-                        if (menu->select_index < menu->item_count - 1) {
-                            menu->select_index++;
-                        }
-                        break;
-                        //case 75: // left
-                        break;
-                        //case 77: // right
-                        //   break;
-                    case 10: // Enter
-                        return menu->select_index;
-                }
-
-            }
-            print_str("> ", 1, 2 + menu->select_index);*/
         }
     }
-    //return menu->select_index;
 }
 
 void menu_destroy(Menu *menu) {
