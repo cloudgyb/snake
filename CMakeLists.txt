@@ -10,4 +10,6 @@ add_executable(snake src/main.c
         src/ui.c
         src/snake.c
         src/snake.h
-        src/food.c)
+        src/food.c
+        src/menu.c
+        src/menu.h)
