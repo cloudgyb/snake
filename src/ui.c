@@ -53,8 +53,7 @@ void move_cursor_to(int x, int y) {
     COORD pos = {(short) x, (short) y}; // 第一个参数是横坐标，第二个参数是纵坐标
     hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleCursorPosition(hOut, pos);
-
-    SetConsoleTextAttribute(hOut, 0x01 | 0x05);
+    //SetConsoleTextAttribute(hOut, 0x01 | 0x05); // 设置字体颜色
 #else
     printf("\033[10;20H");
 #endif

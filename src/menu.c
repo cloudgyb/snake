@@ -7,6 +7,9 @@
 #include "ui.h"
 #include "menu.h"
 
+#define MENU_ITEM_X_OFFSET 8
+#define MENU_ITEM_Y_OFFSET 5
+
 Menu *menu_create(int menu_size, char **menu) {
     Menu *m = (Menu *) malloc(sizeof(Menu));
     m->item_count = menu_size;
@@ -25,12 +28,12 @@ void menu_show(Menu *menu) {
             }
         }
     }
-
+    print_str("贪吃蛇游戏", MENU_ITEM_X_OFFSET, 2);
     for (int i = 0; i < menu->item_count; i++) {
         if (menu->select_index == i) {
-            print_str("> ", 1, 2 + i);
+            print_str("> ", MENU_ITEM_X_OFFSET, MENU_ITEM_Y_OFFSET + i);
         }
-        print_str((menu->items)[i], 3, 2 + i);
+        print_str((menu->items)[i], MENU_ITEM_X_OFFSET + 2, MENU_ITEM_Y_OFFSET + i);
     }
 }
 
@@ -43,17 +46,17 @@ int menu_select(Menu *menu) {
                 key = getch();
             }
             if (key == 'w' || key == 72) {// 按了 w 或者 ↑ 键，菜单选项上移
-                print_str("  ", 1, 2 + menu->select_index);
+                print_str("  ", MENU_ITEM_X_OFFSET, MENU_ITEM_Y_OFFSET + menu->select_index);
                 if (menu->select_index > 0) {
                     menu->select_index--;
                 }
-                print_str("> ", 1, 2 + menu->select_index);
+                print_str("> ", MENU_ITEM_X_OFFSET, MENU_ITEM_Y_OFFSET + menu->select_index);
             } else if (key == 's' || key == 80) { // 按了 s 或者 ↓ 键，菜单选项下移
-                print_str("  ", 1, 2 + menu->select_index);
+                print_str("  ", MENU_ITEM_X_OFFSET, MENU_ITEM_Y_OFFSET + menu->select_index);
                 if (menu->select_index < menu->item_count - 1) {
                     menu->select_index++;
                 }
-                print_str("> ", 1, 2 + menu->select_index);
+                print_str("> ", MENU_ITEM_X_OFFSET, MENU_ITEM_Y_OFFSET + menu->select_index);
             } else if (key == 'c' || key == 13) { // 按 c 或者 Enter 选中菜单退出
                 return menu->select_index;
             }
