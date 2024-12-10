@@ -57,6 +57,7 @@ void snake_show(snake *snake) {
 void snake_run(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y) {
     Snake_body_node *head = snake->head;
     Snake_body_node *newNode = (Snake_body_node *) malloc(sizeof(Snake_body_node));
+    newNode->pre = newNode->next = NULL;
     DIRECT direct = snake->direct;
     int x = head->x;
     int y = head->y;
@@ -80,6 +81,7 @@ void snake_run(snake *snake, int map_x_length, int map_y_length, int map_offset_
     if (is_eat == 0) { //没吃到食物
         Snake_body_node *tail = snake->tail;
         snake->tail = tail->pre;
+        snake->tail->next = NULL;
         print_char(' ', tail->x, tail->y);
         free(tail);
     } else { // 吃到了食物，不清除最后一个节点，将最后一个节点作为增长节点

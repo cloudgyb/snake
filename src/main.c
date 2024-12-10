@@ -18,7 +18,7 @@ int main(void) {
     while (1) {
         system("cls");
         menu_show(menu);
-        int menu_index = 0;// menu_select(menu);
+        int menu_index = menu_select(menu);
         //return 0;
         if (menu_index == 0) {
             system("cls");
