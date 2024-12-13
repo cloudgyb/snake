@@ -6,14 +6,14 @@
 #ifdef __WINNT
 
 #include <windows.h>
-#include <stdbool.h>
 #include <locale.h>
 
 #else
+#include <stdlib.h>
 #include <unistd.h>
 #endif
 
-# include "ui.h"
+#include "ui.h"
 
 void hidden_cursor() {
 #ifdef __WINNT
@@ -24,6 +24,19 @@ void hidden_cursor() {
     SetConsoleCursorInfo(hOut, &cci);
 #else
     printf("\033[?25l");
+    fflush(stdout);
+#endif
+}
+
+void show_cursor() {
+#ifdef __WINNT
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cci;
+    GetConsoleCursorInfo(hOut, &cci);
+    cci.bVisible = 1;//赋1为显示，赋0为隐藏
+    SetConsoleCursorInfo(hOut, &cci);
+#else
+    printf("\033[?25h");
     fflush(stdout);
 #endif
 }
@@ -55,19 +68,32 @@ void move_cursor_to(int x, int y) {
     SetConsoleCursorPosition(hOut, pos);
     //SetConsoleTextAttribute(hOut, 0x01 | 0x05); // 设置字体颜色
 #else
-    printf("\033[10;20H");
+    printf("\033[%d;%dH",y,x);
 #endif
 }
 
-void window_resize(short w, short h) {
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    COORD size = {w, h};
-    SetConsoleScreenBufferSize(hOut, size);
-    SMALL_RECT rc = {1, 1, w, h};
-    SetConsoleWindowInfo(hOut, true, &rc);
-    system("cls");
+void window_title(const char *title) {
+#if defined(WIN32) || defined(WIN64)
+    system("chcp 65001");
+    SetConsoleTitle(title);
+#else
+    printf("\033]0;%s\007", title);
+#endif
 }
 
-void window_title(const char *title) {
-    SetConsoleTitle(title);
+void window_clear() {
+#if defined(WIN32) || defined(WIN64)
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+void window_init() {
+    hidden_cursor();
+    window_clear();
+}
+
+void window_restore() {
+    show_cursor();
 }
