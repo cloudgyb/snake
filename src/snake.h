@@ -8,9 +8,11 @@
 #include "food.h"
 
 #define SNAKE_INIT_DEFAULT_LENGTH 4
+
 typedef enum {
     LEFT, RIGHT, UP, DOWN
 } DIRECT;
+
 typedef struct snake_body_node {
     int x;
     int y;
@@ -23,6 +25,8 @@ typedef struct {
     int length;
     int speed;
     int score;
+    char body_char;
+    char allow_crush_body;
     DIRECT direct;
     Food *food;
     Snake_body_node *head;
@@ -31,13 +35,13 @@ typedef struct {
 
 snake *snake_create();
 
-void snake_init(snake *snake);
+void snake_init(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y);
 
-void snake_show(snake *snake);
+void snake_show(const snake *snake);
 
-void snake_run(snake *snake);
+void snake_run(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y);
 
-int snake_crash_check(snake *snake);
+int snake_crash_check(snake *snake, int map_x_length, int map_y_length, int map_offset_x, int map_offset_y);
 
 void snake_destroy(snake *snake);
 

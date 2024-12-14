@@ -6,14 +6,14 @@
 
 ## 操作说明
 
-上下左右分别使用 w s a d 键，q 退出游戏
+菜单和蛇上下左右分别使用↑ ↓ ← → 或 w s a d 键 
 
 ```
-    ↑
-    w
-← a   d →
-    s
-    ↓  
+                  ↑
+   ↑              w
+←     →       ← a   d →
+   ↓              s
+                  ↓  
 ```
 
 ## 游戏说明
@@ -24,6 +24,10 @@
 
 ## 游戏截图
 
+- 菜单
+
+![menu](screenshots/menu.png)
+
 - 正常运行
 
 ![Snake Running](screenshots/snake_running.png)
@@ -31,3 +35,15 @@
 - Game Over
 
 ![Game Over](screenshots/game_over.png)
+
+- 最高分
+
+![Max Score](screenshots/max_score.png)
+
+- 设置
+
+![Settings](screenshots/settings.png)
+
+- 帮助
+
+![Help](screenshots/help.png)

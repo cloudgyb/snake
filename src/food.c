@@ -3,11 +3,6 @@
 #include "food.h"
 #include "ui.h"
 
-extern int map_x_length;
-extern int map_y_length;
-extern int map_offset_x;
-extern int map_offset_y;
-
 Food *food_create() {
     Food *food = (Food *) malloc(sizeof(Food));
     food->x = 0;
@@ -15,7 +10,7 @@ Food *food_create() {
     return food;
 }
 
-void food_generate(Food *food) {
+void food_generate(Food *food,int map_x_length, int map_y_length, int map_offset_x, int map_offset_y) {
     srand(time(0));
     int x0 = map_offset_x + 1; // 1
     int x1 = map_offset_x + map_x_length - 1; // 19
