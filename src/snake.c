@@ -33,7 +33,8 @@ void snake_init(snake *snake, int map_x_length, int map_y_length, int map_offset
     Snake_body_node *pre = snake->head;
     int i = SNAKE_INIT_DEFAULT_LENGTH - 1;
     Snake_body_node *newNode = snake->head;
-    while (i-- > 0) { // 循环创建身体
+    while (i-- > 0) {
+        // 循环创建身体
         newNode = (Snake_body_node *) malloc(sizeof(Snake_body_node));
         newNode->x = pre->x - 1;
         newNode->y = pre->y;
@@ -45,11 +46,11 @@ void snake_init(snake *snake, int map_x_length, int map_y_length, int map_offset
     snake->tail = newNode; // 最后一个节点是尾巴
 }
 
-void snake_show(snake *snake) {
+void snake_show(const snake *snake) {
     food_show(snake->food); //显示食物
-    Snake_body_node *head = snake->head;
+    const Snake_body_node *head = snake->head;
     while (head != NULL) {
-        print_char('*', head->x, head->y);
+        print_char(snake->body_char, head->x, head->y);
         head = head->next;
     }
 }
@@ -75,18 +76,21 @@ void snake_run(snake *snake, int map_x_length, int map_y_length, int map_offset_
     snake->head = newNode;
     newNode->next = head;
     head->pre = newNode;
-    print_char('*', x, y); //显示新节点
+    print_char(snake->body_char, x, y); //显示新节点
 
     int is_eat = food_eat_check(snake);
-    if (is_eat == 0) { //没吃到食物
+    if (is_eat == 0) {
+        //没吃到食物
         Snake_body_node *tail = snake->tail;
         snake->tail = tail->pre;
         snake->tail->next = NULL;
         print_char(' ', tail->x, tail->y);
         free(tail);
-    } else { // 吃到了食物，不清除最后一个节点，将最后一个节点作为增长节点
+    } else {
+        // 吃到了食物，不清除最后一个节点，将最后一个节点作为增长节点
         food_generate(snake->food, map_x_length, map_y_length, map_offset_x, map_offset_y);
-        if (snake->speed < 1000000 - 100000) { // 速度有上限
+        if (snake->speed < 1000000 - 100000) {
+            // 速度有上限
             snake->speed += 20000;
         }
         snake->score += 10;
@@ -103,6 +107,17 @@ int snake_crash_check(snake *snake, int map_x_length, int map_y_length, int map_
     int y = snake->head->y;
     if (x <= min_x || x >= max_x || y <= min_y || y >= max_y) {
         return 1;
+    }
+    // 如果不允许蛇碰到自己的身体，检测蛇头是否碰到了身体
+    if (!snake->allow_crush_body) {
+        const Snake_body_node *head = snake->head;
+        const Snake_body_node *next = head->next;
+        while (next != NULL) {
+            if (head->x == next->x && head->y == next->y) {
+                return 1;
+            }
+            next = next->next;
+        }
     }
     return 0;
 }

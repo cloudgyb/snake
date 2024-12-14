@@ -12,4 +12,6 @@ add_executable(snake src/main.c
         src/snake.h
         src/food.c
         src/menu.c
-        src/menu.h)
+        src/menu.h
+        src/setting.h
+        src/setting.c)
