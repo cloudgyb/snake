@@ -14,4 +14,6 @@ add_executable(snake src/main.c
         src/menu.c
         src/menu.h
         src/setting.h
-        src/setting.c)
+        src/setting.c
+        src/help.c
+        src/help.h)

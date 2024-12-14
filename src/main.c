@@ -5,6 +5,7 @@
 #include "ui.h"
 #include "menu.h"
 #include "setting.h"
+#include "help.h"
 
 int main(void) {
     window_title("贪吃蛇游戏"); //设置终端标题
@@ -78,6 +79,9 @@ int main(void) {
         } else if (menu_index == 2) {
             // 设置
             setting_show(&setting);
+        } else if (menu_index == 3) {
+            // 显示帮助
+            help_show();
         } else if (menu_index == 4) {
             break;
         }
