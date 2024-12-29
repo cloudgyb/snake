@@ -15,6 +15,10 @@ void print_str(char *str, int x, int y);
 
 void printf_str(char *format, int x, int y, ...);
 
+int get_key();
+
+void wait_keypress();
+
 /**
  * 设置窗口标题
  * @param title 标题

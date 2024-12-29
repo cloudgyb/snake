@@ -3,7 +3,9 @@
 //
 
 #include <malloc.h>
+#ifdef __WINNT
 #include <conio.h>
+#endif
 #include "ui.h"
 #include "menu.h"
 
@@ -46,14 +48,9 @@ void menu_show(const Menu *menu) {
 }
 
 int menu_select(Menu *menu) {
-    int key;
     while (1) {
-        if (kbhit()) {
-            key = getch();
-            if (key == 0 || key == 224) {
-                // 处理方向键（上下左右）getch() 会有两次返回
-                key = getch();
-            }
+        const int key = get_key();
+        if (key != -1) {
             if (key == 'w' || key == 72) {
                 // 按了 w 或者 ↑ 键，菜单选项上移
                 print_str("  ", MENU_ITEM_X_OFFSET, MENU_ITEM_Y_OFFSET + menu->select_index);
@@ -84,5 +81,5 @@ void menu_show_max_score(const int max_score) {
     menu_print_border(MENU_WIDTH, MENU_HEIGHT);
     printf_str("最高分：%d", MENU_ITEM_X_OFFSET, MENU_ITEM_Y_OFFSET, max_score);
     print_str("按任意键继续!", MENU_ITEM_X_OFFSET, MENU_ITEM_Y_OFFSET + 3);
-    getch();
+    wait_keypress();
 }

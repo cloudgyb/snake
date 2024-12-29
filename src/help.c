@@ -3,8 +3,12 @@
 //
 
 #include <stdio.h>
+#ifdef __WINNT
 #include <conio.h>
+#endif
 #include "help.h"
+
+#include "ui.h"
 
 void help_show() {
     printf("##########################################\n");
@@ -32,5 +36,5 @@ void help_show() {
     printf("#                                        #\n");
     printf("#           @cloudgyb 版权所有           #\n");
     printf("##########################################\n");
-    getch();
+    wait_keypress();
 }

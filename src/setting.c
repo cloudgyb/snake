@@ -2,7 +2,6 @@
 // Created by Administrator on 2024/12/14.
 //
 #include <stdio.h>
-#include <conio.h>
 #include "ui.h"
 #include "setting.h"
 
@@ -39,12 +38,8 @@ void setting_show(Setting *setting) {
     print_char('v', 17 + 6 * border_char_index, 4 + 2);
 
     while (1) {
-        if (kbhit()) {
-            int key = getch();
-            if (key == 0 || key == 224) {
-                // 处理方向键（上下左右）getch() 会有两次返回
-                key = getch();
-            }
+        const int key = get_key();
+        if (key != -1) {
             if (key == 'w' || key == 72) {
                 // 按了 w 或者 ↑ 键，菜单选项上移
                 print_str(" ", 4, 4 + y_select_index);

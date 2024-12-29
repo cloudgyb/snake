@@ -1,4 +1,3 @@
-#include <conio.h>
 #include <unistd.h>
 #include "map.h"
 #include "snake.h"
@@ -33,15 +32,7 @@ int main(void) {
             DIRECT curr_direct = snake->direct;
             DIRECT next_direct = curr_direct;
             while (1) {
-                int key = -1;
-                while (kbhit()) {
-                    // 非阻塞的检测键盘按下，使用 while 是处理用户多次连续按键，防止缓冲区一次读取不完影响下一次方向改变
-                    key = getch();
-                    if (key == 0 || key == 224) {
-                        // 处理功能键和方向键（上下左右）getch() 会有两次返回
-                        key = getch();
-                    }
-                }
+                const int key = get_key();
                 // 有按键按下，根据按键改变蛇的方向
                 if (key != -1) {
                     curr_direct = snake->direct;
@@ -70,7 +61,7 @@ int main(void) {
             }
             max_score = max_score > snake->score ? max_score : snake->score;
             show_game_over(map, snake->score);
-            getch();
+            wait_keypress();
             snake_destroy(snake);
             destroy_map(map);
         } else if (menu_index == 1) {
