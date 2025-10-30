@@ -4,13 +4,12 @@
 #include <stdio.h>
 
 #ifdef __WINNT
-
 #include <windows.h>
 #include <locale.h>
-
 #else
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdarg.h>
 #endif
 
 #include "ui.h"

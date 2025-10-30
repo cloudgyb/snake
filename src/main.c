@@ -1,4 +1,8 @@
+#ifdef __WINNT
 #include <conio.h>
+#else
+#include "conio_linux.h"
+#endif
 #include <unistd.h>
 #include "map.h"
 #include "snake.h"

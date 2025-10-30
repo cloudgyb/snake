@@ -3,7 +3,11 @@
 //
 
 #include <stdio.h>
+#ifdef __WINNT
 #include <conio.h>
+#else
+#include "conio_linux.h"
+#endif
 #include "help.h"
 
 void help_show() {

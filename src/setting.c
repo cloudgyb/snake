@@ -2,7 +2,11 @@
 // Created by Administrator on 2024/12/14.
 //
 #include <stdio.h>
+#ifdef __WINNT
 #include <conio.h>
+#else
+#include "conio_linux.h"
+#endif
 #include "ui.h"
 #include "setting.h"
 

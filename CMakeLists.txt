@@ -16,4 +16,8 @@ add_executable(snake src/main.c
         src/setting.h
         src/setting.c
         src/help.c
-        src/help.h)
+        src/help.h
+        src/conio_linux.h
+        src/conio_linux.c
+        src/keyboard.c
+        src/keyboard.h)
